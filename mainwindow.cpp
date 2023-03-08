@@ -1,10 +1,10 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dialogabout.h"
 
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -17,8 +17,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_actionAbout_triggered()
 {
-    DialogAbout about;
-    about.exec();
+    dialogAbout->show();
 }
 
 void MainWindow::on_actionConnectDB_triggered()
@@ -42,19 +41,37 @@ void MainWindow::on_actionConnectDB_triggered()
     }
 
     // Привязываемя базу данных к модели табличного представления
-    model = new QSqlRelationalTableModel(this, db);
-    model->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
-    model->setTable("schools");
-    model->select();
+    modelSchools = new QSqlRelationalTableModel(this, db);
+    modelSchools->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
+    modelSchools->clear();
+    modelSchools->setTable("schools");
+    modelSchools->select();
+    modelSchools->setHeaderData(1,Qt::Horizontal,
+                                "Название\n"
+                                "школы");
+    modelSchools->setHeaderData(2,Qt::Horizontal,
+                                "Тип школы");
+    modelSchools->setHeaderData(3,Qt::Horizontal,
+                                "Улица");
+    modelSchools->setHeaderData(4,Qt::Horizontal,
+                                "Номер дома");
+
 
     // Отображаем табличное представление таблицы базы данных
-    ui->tableView->setModel(model);
+    ui->tableView->setModel(modelSchools);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->hideColumn(0);
+
 
     // Объявляем диалог изменения записей таблицы и привязываем его к таблице
     dialogEditSchool = new DialogEditSchool();
     dialogEditSchool->setParent(this, Qt::Window);
-    dialogEditSchool->setModel(model);
+    dialogEditSchool->setModel(modelSchools);
+
+    classesWindow = new ClassesWindow();
+    classesWindow->setParent(this, Qt::Window);
+
+    formFullReport = new FormFullReport();
 
     // Активируем элементы интерфейса
     ui->actionFullReport->setEnabled(true);
@@ -64,30 +81,33 @@ void MainWindow::on_actionConnectDB_triggered()
     ui->goToClassesButton->setEnabled(true);
     ui->loadButton->setEnabled(true);
     ui->saveButton->setEnabled(true);
-    ui->revertButton->setEnabled(true);
 }
-
-void MainWindow::on_revertButton_clicked()
-{
-    model->revertAll();
-}
-
 
 void MainWindow::on_saveButton_clicked()
 {
-    model->submitAll();
+    modelSchools->submitAll();
+}
+
+void MainWindow::on_actionFullReport_triggered()
+{
+    formFullReport->setDatabase(db.databaseName());
+    formFullReport->show();
 }
 
 
 void MainWindow::on_loadButton_clicked()
 {
-    model->select();
+    modelSchools->select();
 }
 
 void MainWindow::on_addSchoolButton_clicked()
 {
-    int lastRow = model->rowCount();
-    model->insertRow(lastRow);
+    int lastRow = modelSchools->rowCount();
+    modelSchools->insertRow(lastRow);
+    modelSchools->setData(modelSchools->index(lastRow, 1), 0);
+    modelSchools->setData(modelSchools->index(lastRow, 2), "Неизвестно");
+    modelSchools->setData(modelSchools->index(lastRow, 3), "Неизвестно");
+    modelSchools->setData(modelSchools->index(lastRow, 4), "Неизвестно");
 }
 
 
@@ -97,7 +117,7 @@ void MainWindow::on_deleteSchoolButton_clicked()
 
     if (selectedRow >= 0)
     {
-        model->removeRow(selectedRow);
+        modelSchools->removeRow(selectedRow);
     }
 }
 
@@ -105,9 +125,27 @@ void MainWindow::on_deleteSchoolButton_clicked()
 void MainWindow::on_editSchoolButton_clicked()
 {
     int selectedRow = ui->tableView->currentIndex().row();
-    QModelIndex index = model->index(selectedRow, 0);
+
+    QModelIndex index = modelSchools->index(selectedRow, 0);
     dialogEditSchool->mapper->setCurrentModelIndex(index);
     dialogEditSchool->show();
 }
 
+
+void MainWindow::on_goToClassesButton_clicked()
+{
+    // Передаём в окно классов школы необходимые данные о выбранной школе
+    int selectedRow = ui->tableView->currentIndex().row();
+    int idSchool = modelSchools->record(selectedRow).value("IdSchool").toInt();
+    classesWindow->setDatabase(db.databaseName());
+    classesWindow->setSchool(idSchool);
+
+    // Подготавливаем окно
+    classesWindow->setupWindow();
+
+    // Устанавливаем заголовок окна
+    QString schoolName = modelSchools->record(selectedRow).value("SchoolName").toString();
+    classesWindow->setWindowTitle(QStringLiteral("Классы школы %1").arg(schoolName));
+    classesWindow->show();
+}
 

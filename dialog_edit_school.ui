@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Информация о школе</string>
+   <string>Изменение информации о школе</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">

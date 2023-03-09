@@ -91,6 +91,7 @@ void MainWindow::on_saveButton_clicked()
 void MainWindow::on_actionFullReport_triggered()
 {
     formFullReport->setDatabase(db.databaseName());
+    formFullReport->doQuery();
     formFullReport->show();
 }
 

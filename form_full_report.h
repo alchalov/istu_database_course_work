@@ -2,7 +2,8 @@
 #define FORM_FULL_REPORT_H
 
 #include <QWidget>
-#include <QSqlRelationalTableModel>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
 
 namespace Ui {
 class FormFullReport;
@@ -17,10 +18,14 @@ explicit FormFullReport(QWidget *parent = nullptr);
 ~FormFullReport();
 
 QSqlDatabase db;
-QSqlTableModel *fullReportModel;
-void doneReport();
+QSqlQueryModel *fullReportModel;
+QSqlQuery *query;
 
-void setDatabase(const QString& db);
+void setDatabase(const QString&);
+void doQuery();
+
+private slots:
+void on_pushButton_clicked();
 
 private:
 Ui::FormFullReport *ui;

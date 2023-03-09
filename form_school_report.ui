@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormFullReport</class>
- <widget class="QWidget" name="FormFullReport">
+ <class>FormSchoolReport</class>
+ <widget class="QWidget" name="FormSchoolReport">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1168</width>
-    <height>250</height>
+    <width>839</width>
+    <height>245</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Полный отчёт об учениках всех школ</string>
+   <string>Form</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>1151</width>
+     <width>821</width>
      <height>226</height>
     </rect>
    </property>

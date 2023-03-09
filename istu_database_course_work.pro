@@ -15,6 +15,7 @@ SOURCES += \
     dialog_edit_student.cpp \
     dialogabout.cpp \
     form_full_report.cpp \
+    form_school_report.cpp \
     main.cpp \
     mainwindow.cpp \
     students_window.cpp
@@ -26,6 +27,7 @@ HEADERS += \
     dialog_edit_student.h \
     dialogabout.h \
     form_full_report.h \
+    form_school_report.h \
     mainwindow.h \
     students_window.h
 
@@ -36,6 +38,7 @@ FORMS += \
     dialog_edit_student.ui \
     dialogabout.ui \
     form_full_report.ui \
+    form_school_report.ui \
     mainwindow.ui \
     students_window.ui
 

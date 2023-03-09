@@ -6,8 +6,7 @@ DialogEditClass::DialogEditClass(QWidget *parent) :
     ui(new Ui::DialogEditClass)
 {
     ui->setupUi(this);
-
-    mapper = new QDataWidgetMapper (this);
+    mapper = new QDataWidgetMapper(this);
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 }
 

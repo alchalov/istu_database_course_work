@@ -28,7 +28,6 @@ private:
 Ui::MainWindow *ui;
 QSqlDatabase db;
 QSqlRelationalTableModel *modelSchools;
-
 ClassesWindow *classesWindow;
 DialogEditSchool *dialogEditSchool;
 DialogAbout *dialogAbout;

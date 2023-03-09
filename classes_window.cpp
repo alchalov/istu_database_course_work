@@ -1,15 +1,15 @@
 #include "classes_window.h"
 #include "ui_classes_window.h"
 
-#include <QDebug>
-#include <QSqlRecord>
-
 ClassesWindow::ClassesWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ClassesWindow)
 {
     ui->setupUi(this);
 
+    studentsWindow = new StudentsWindow();
+    dialogEditClass = new DialogEditClass();
+    schoolReport = new FormSchoolReport();
 }
 
 ClassesWindow::~ClassesWindow()
@@ -20,7 +20,6 @@ ClassesWindow::~ClassesWindow()
 void ClassesWindow::setSchool(int selectedSchool)
 {
     currentSchool = selectedSchool;
-    qDebug() << currentSchool;
 }
 
 void ClassesWindow::setDatabase(const QString &dbName)
@@ -30,6 +29,7 @@ void ClassesWindow::setDatabase(const QString &dbName)
 
 void ClassesWindow::setupWindow()
 {
+
     // Привязываемя базу данных к модели табличного представления
     modelClasses = new QSqlRelationalTableModel(this, db);
     modelClasses->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
@@ -64,7 +64,6 @@ void ClassesWindow::setupWindow()
     ui->goToStudentsButton->setEnabled(true);
     ui->loadClassesButton->setEnabled(true);
     ui->saveClassesButton->setEnabled(true);
-
 
     // Объявляем диалог изменения записей таблицы и привязываем его к таблице
     dialogEditClass = new DialogEditClass();
@@ -131,5 +130,13 @@ void ClassesWindow::on_goToStudentsButton_clicked()
     QString className = modelClasses->record(selectedRow).value("ClassName").toString();
     studentsWindow->setWindowTitle(QStringLiteral("Ученики класса %1 Школы %2").arg(className).arg(currentSchool));
     studentsWindow->show();
+}
+
+
+void ClassesWindow::on_actionSchoolReport_triggered()
+{
+    schoolReport->setCurrentSchool(currentSchool);
+    schoolReport->doQuery();
+    schoolReport->show();
 }
 

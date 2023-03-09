@@ -9,6 +9,12 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    modelSchools = new QSqlRelationalTableModel(this, db);
+    classesWindow = new ClassesWindow();
+    dialogEditSchool = new DialogEditSchool();
+    dialogAbout = new DialogAbout();
+    formFullReport= new FormFullReport();
 }
 
 MainWindow::~MainWindow() {
@@ -41,7 +47,7 @@ void MainWindow::on_actionConnectDB_triggered()
     }
 
     // Привязываемя базу данных к модели табличного представления
-    modelSchools = new QSqlRelationalTableModel(this, db);
+    modelSchools = new QSqlRelationalTableModel();
     modelSchools->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
     modelSchools->clear();
     modelSchools->setTable("schools");
@@ -62,25 +68,20 @@ void MainWindow::on_actionConnectDB_triggered()
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableView->hideColumn(0);
 
-
     // Объявляем диалог изменения записей таблицы и привязываем его к таблице
-    dialogEditSchool = new DialogEditSchool();
     dialogEditSchool->setParent(this, Qt::Window);
     dialogEditSchool->setModel(modelSchools);
 
-    classesWindow = new ClassesWindow();
     classesWindow->setParent(this, Qt::Window);
-
-    formFullReport = new FormFullReport();
 
     // Активируем элементы интерфейса
     ui->actionFullReport->setEnabled(true);
     ui->addSchoolButton->setEnabled(true);
     ui->editSchoolButton->setEnabled(true);
     ui->deleteSchoolButton->setEnabled(true);
-    ui->goToClassesButton->setEnabled(true);
     ui->loadButton->setEnabled(true);
     ui->saveButton->setEnabled(true);
+    ui->goToClassesButton->setEnabled(true);
 }
 
 void MainWindow::on_saveButton_clicked()
@@ -90,11 +91,9 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_actionFullReport_triggered()
 {
-    formFullReport->setDatabase(db.databaseName());
     formFullReport->doQuery();
     formFullReport->show();
 }
-
 
 void MainWindow::on_loadButton_clicked()
 {

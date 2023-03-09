@@ -20,7 +20,7 @@
    <string>Курсовой проект по дициплине &quot;Базы данных&quot; Вариант 2 Школы города</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -161,6 +161,9 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Об авторе</string>
    </property>

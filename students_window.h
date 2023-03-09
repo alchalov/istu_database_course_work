@@ -29,7 +29,6 @@ QSqlRelationalTableModel *modelStudents;
 
 private:
 Ui::StudentsWindow *ui;
-
 DialogEditStudent *dialogEditStudent;
 
 int currentClass;

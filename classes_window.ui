@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -126,13 +126,13 @@
     <property name="title">
      <string>Отчеты</string>
     </property>
-    <addaction name="actionFullSchoolReport"/>
+    <addaction name="actionSchoolReport"/>
    </widget>
    <addaction name="menu"/>
   </widget>
-  <action name="actionFullSchoolReport">
+  <action name="actionSchoolReport">
    <property name="text">
-    <string>Список всех учеников школы</string>
+    <string>Ведомость всех учеников школы</string>
    </property>
   </action>
  </widget>

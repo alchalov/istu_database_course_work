@@ -5,9 +5,11 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRelationalTableModel>
+#include <QSqlRecord>
 
 #include "students_window.h"
 #include "dialog_edit_class.h"
+#include "form_school_report.h"
 
 namespace Ui {
 class ClassesWindow;
@@ -30,9 +32,9 @@ QSqlRelationalTableModel *modelClasses;
 
 private:
 Ui::ClassesWindow *ui;
-
 StudentsWindow *studentsWindow;
 DialogEditClass *dialogEditClass;
+FormSchoolReport *schoolReport;
 
 int currentSchool;
 
@@ -43,6 +45,7 @@ void on_deleteClassButton_clicked();
 void on_goToStudentsButton_clicked();
 void on_loadClassesButton_clicked();
 void on_saveClassesButton_clicked();
+void on_actionSchoolReport_triggered();
 };
 
 #endif // CLASSES_WINDOW_H

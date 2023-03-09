@@ -9,7 +9,8 @@ StudentsWindow::StudentsWindow(QWidget *parent) :
     ui(new Ui::StudentsWindow)
 {
     ui->setupUi(this);
-
+    dialogEditStudent = new DialogEditStudent();
+    modelStudents = new QSqlRelationalTableModel(this, db);
 }
 
 StudentsWindow::~StudentsWindow()
@@ -20,7 +21,6 @@ StudentsWindow::~StudentsWindow()
 void StudentsWindow::setClass(int selectedClass)
 {
     currentClass = selectedClass;
-    qDebug() << currentClass;
 }
 
 void StudentsWindow::setDatabase(const QString &dbName)
@@ -32,7 +32,6 @@ void StudentsWindow::setupWindow()
 {
 
     // Привязываемя базу данных к модели табличного представления
-    modelStudents = new QSqlRelationalTableModel(this, db);
     modelStudents->setEditStrategy(QSqlRelationalTableModel::OnManualSubmit);
     modelStudents->clear();
     modelStudents->setTable("students");
@@ -63,7 +62,6 @@ void StudentsWindow::setupWindow()
     ui->saveClassesButton->setEnabled(true);
 
     // Объявляем диалог изменения записей таблицы и привязываем его к таблице
-    dialogEditStudent = new DialogEditStudent();
     dialogEditStudent->setParent(this, Qt::Window);
     dialogEditStudent->setModel(modelStudents);
 

@@ -8,7 +8,6 @@ DialogEditSchool::DialogEditSchool(QWidget *parent) :
     ui->setupUi(this);
 
     mapper = new QDataWidgetMapper (this);
-
     mapper->setSubmitPolicy(QDataWidgetMapper::ManualSubmit);
 }
 

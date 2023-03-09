@@ -1,0 +1,1 @@
+SELECT SchoolName, SchoolType, Street, HouseNum, ClassName, ClassTeacher, TeachersPhone, FamilyName, BornYear, JoinYear, Sex FROM students LEFT JOIN classes ON students.IdClass = classes.IdClass LEFT JOIN schools ON classes.IdSchool = schools.IdSchool

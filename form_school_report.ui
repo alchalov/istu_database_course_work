@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Отчёт о всех учениках школы</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
